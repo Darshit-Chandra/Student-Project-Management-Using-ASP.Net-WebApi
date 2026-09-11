@@ -1,0 +1,6 @@
+@SPMBACKENDSELF_HostAddress = http://localhost:5199
+
+GET {{SPMBACKENDSELF_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
