@@ -34,7 +34,7 @@ namespace SPMBACKENDSELF.Services
                 audience: _config["Jwt:Audience"],
                 claims: claims,
                 expires: DateTime.UtcNow.AddMinutes(
-                    double.Parse(_config["Jwt:ExpiresInMinutes"]!)),
+                    double.Parse(_config["Jwt:ExpiryMinutes"]!)),
                 signingCredentials: credentials //the key + algorithm combo used to sign (seal) the token.
             );
 
