@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SPMBACKENDSELF.ApiCommonResponse;
 using SPMBACKENDSELF.Data;
@@ -9,6 +10,7 @@ namespace SPMBACKENDSELF.Controllers
 {
     [Route("api/[controller]/[Action]")]
     [ApiController]
+    [Authorize]
     public class UserRoleController : ControllerBase
     {
         private readonly AppDbContext _context;
@@ -20,6 +22,8 @@ namespace SPMBACKENDSELF.Controllers
 
         // GET: api/UserRole
         [HttpGet]
+        [Authorize(Roles = "Admin, Faculty")]
+
         public async Task<IActionResult> GetAll()
         {
             var userRoles = await _context.UserRoles
@@ -40,7 +44,9 @@ namespace SPMBACKENDSELF.Controllers
         }
             // GET: api/UserRole/1
             [HttpGet("{id}")]
-             public async Task<IActionResult> GetById(int id)
+        [Authorize(Roles = "Admin,Faculty")]
+
+        public async Task<IActionResult> GetById(int id)
            {
             var userRole = await _context.UserRoles
                 .Where(ur => ur.RolePermissionID == id)
@@ -72,6 +78,7 @@ namespace SPMBACKENDSELF.Controllers
 
         // POST: api/UserRole
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddUserRole(UserRolePostDTO userRoleDto)
         {
             var userRole = new UserRoleModel
@@ -94,6 +101,8 @@ namespace SPMBACKENDSELF.Controllers
 
         // PUT: api/UserRole/1
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
+
         public async Task<IActionResult> UpdateUserRole(
             int id,
             UserRolePostDTO userRoleDto)
@@ -125,6 +134,8 @@ namespace SPMBACKENDSELF.Controllers
 
         // DELETE: api/UserRole/1
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
+
         public async Task<IActionResult> DeleteUserRole(int id)
         {
             var userRole = await _context.UserRoles.FindAsync(id);

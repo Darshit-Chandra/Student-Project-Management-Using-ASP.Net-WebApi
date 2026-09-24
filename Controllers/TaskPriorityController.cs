@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SPMBACKENDSELF.ApiCommonResponse;
@@ -11,6 +12,7 @@ namespace SPMBACKENDSELF.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [Authorize]
     public class TaskPriorityController : ControllerBase
     {
         private readonly AppDbContext _Context;
@@ -23,6 +25,8 @@ namespace SPMBACKENDSELF.Controllers
 
         // GET: api/TaskPriority
         [HttpGet]
+        [Authorize(Roles = "Admin,Faculty")]
+
         public async Task<IActionResult> GetAllTaskPriority()
         {
             var taskPriority = await _Context.TaskPriority
@@ -44,6 +48,8 @@ namespace SPMBACKENDSELF.Controllers
 
         // GET: api/TaskPriority/1
         [HttpGet("{id}")]
+        [Authorize(Roles = "Admin,Faculty")]
+
         public async Task<IActionResult> GetById(int id)
         {
             var taskPriority = await _Context.TaskPriority
@@ -75,6 +81,8 @@ namespace SPMBACKENDSELF.Controllers
 
         // POST: api/TaskPriority
         [HttpPost]
+        [Authorize(Roles = "Admin")]
+
         public async Task<IActionResult> PostTaskPriority(
             TaskPriorityPostDTO taskPriorityDto)
         {
@@ -98,6 +106,8 @@ namespace SPMBACKENDSELF.Controllers
 
         // PUT: api/TaskPriority/1
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
+
         public async Task<IActionResult> UpdateTaskPriority(
             int id,
             TaskPriorityPostDTO taskPriorityDto)
@@ -128,6 +138,8 @@ namespace SPMBACKENDSELF.Controllers
 
         // DELETE: api/TaskPriority/1
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
+
         public async Task<IActionResult> DeleteTaskPriority(int id)
         {
             var taskPriority = await _Context.TaskPriority.FindAsync(id);

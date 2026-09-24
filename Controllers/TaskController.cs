@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SPMBACKENDSELF.ApiCommonResponse;
 using SPMBACKENDSELF.Data;
@@ -10,6 +11,7 @@ namespace SPMBACKENDSELF.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [Authorize]
     public class TaskController : ControllerBase
     {
         private readonly AppDbContext _context;
@@ -21,6 +23,7 @@ namespace SPMBACKENDSELF.Controllers
 
         // GET: api/Task
         [HttpGet]
+        [Authorize(Roles = "Admin,Faculty,Student")]
         public async Task<IActionResult> GetAllTask()
         {
             var allTask = await _context.Task
@@ -60,6 +63,8 @@ namespace SPMBACKENDSELF.Controllers
 
         // GET: api/Task/1
         [HttpGet("{id}")]
+        [Authorize(Roles = "Admin,Faculty,Student")]
+
         public async Task<IActionResult> GetTaskByID(int id)
         {
             var task = await _context.Task
@@ -110,6 +115,8 @@ namespace SPMBACKENDSELF.Controllers
 
         // POST: api/Task
         [HttpPost]
+        [Authorize(Roles = "Admin")]
+
         public async Task<IActionResult> AddTask(TaskPostDTO taskDto)
         {
             var task = new TaskModel
@@ -150,6 +157,7 @@ namespace SPMBACKENDSELF.Controllers
 
         // PUT: api/Task/1
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin,Faculty")]
         public async Task<IActionResult> UpdateTask(
             int id,
             TaskPostDTO taskDto)
@@ -198,6 +206,8 @@ namespace SPMBACKENDSELF.Controllers
 
         // DELETE: api/Task/1
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
+
         public async Task<IActionResult> DeleteTask(int id)
         {
             var task = await _context.Task.FindAsync(id);

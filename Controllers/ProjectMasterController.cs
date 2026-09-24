@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SPMBACKENDSELF.ApiCommonResponse;
@@ -11,6 +12,7 @@ namespace SPMBACKENDSELF.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [Authorize]
     public class ProjectMasterController : ControllerBase
     {
         private readonly AppDbContext _context;
@@ -24,6 +26,7 @@ namespace SPMBACKENDSELF.Controllers
 
         // GET: api/ProjectMaster
         [HttpGet]
+        [Authorize(Roles = "Admin,User")]
         public async Task<IActionResult> GetAllProject()
         {
             var projects = await _context.projectMaster
@@ -45,6 +48,7 @@ namespace SPMBACKENDSELF.Controllers
 
         // GET: api/ProjectMaster/1
         [HttpGet("{id}")]
+        [Authorize(Roles = "Admin,User")]
         public async Task<IActionResult> GetProjectByID(int id)
         {
             var project = await _context.projectMaster
@@ -76,6 +80,8 @@ namespace SPMBACKENDSELF.Controllers
 
         // POST: api/ProjectMaster
         [HttpPost]
+        [Authorize(Roles = "Admin")]
+
         public async Task<IActionResult> PostProject(
             ProjectMasterPostDTO projectDto)
         {
@@ -99,6 +105,8 @@ namespace SPMBACKENDSELF.Controllers
 
         // PUT: api/ProjectMaster/1
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
+
         public async Task<IActionResult> UpdateProject(
             int id,
             ProjectMasterPostDTO projectDto)
@@ -128,7 +136,10 @@ namespace SPMBACKENDSELF.Controllers
         }
 
         // DELETE: api/ProjectMaster/1
+
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
+
         public async Task<IActionResult> DeleteProject(int id)
         {
             var project = await _context.projectMaster.FindAsync(id);

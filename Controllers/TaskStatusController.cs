@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SPMBACKENDSELF.ApiCommonResponse;
@@ -11,6 +12,7 @@ namespace SPMBACKENDSELF.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [Authorize]
     public class TaskStatusController : ControllerBase
     {
         private readonly AppDbContext _context;
@@ -24,6 +26,8 @@ namespace SPMBACKENDSELF.Controllers
 
         // GET: api/TaskStatus
         [HttpGet]
+        [Authorize(Roles = "Admin,Faculty")]
+
         public async Task<IActionResult> GetTaskStatus()
         {
             var taskStatus = await _context.TaskStatus
@@ -45,6 +49,7 @@ namespace SPMBACKENDSELF.Controllers
 
         // GET: api/TaskStatus/1
         [HttpGet("{id}")]
+        [Authorize(Roles = "Admin,Faculty")]
         public async Task<IActionResult> GetTaskStatusByID(int id)
         {
             var taskStatus = await _context.TaskStatus
@@ -76,6 +81,8 @@ namespace SPMBACKENDSELF.Controllers
 
         // POST: api/TaskStatus
         [HttpPost]
+        [Authorize(Roles = "Admin")]
+
         public async Task<IActionResult> PostTaskStatus(TaskStatusPostDTO taskStatusDto)
         {
             var taskStatus = new TaskStatusModel
@@ -98,6 +105,8 @@ namespace SPMBACKENDSELF.Controllers
 
         // PUT: api/TaskStatus/1
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
+
         public async Task<IActionResult> UpdateTaskStatus(
             int id,
             TaskStatusPostDTO taskStatusDto)
@@ -128,6 +137,8 @@ namespace SPMBACKENDSELF.Controllers
 
         // DELETE: api/TaskStatus/1
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
+
         public async Task<IActionResult> DeleteTaskStatus(int id)
         {
             var taskStatus = await _context.TaskStatus.FindAsync(id);

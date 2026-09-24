@@ -18,11 +18,21 @@ namespace SPMBACKENDSELF.Services
         public string GenerateToken(UserModel user)
         {
             //the info on the ID card (email, unique token ID)
-            var claims = new[]
+            var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
+
+            //as one use can have multiple roles 
+            foreach (var userrole in user.UserRoleModels)
+            {
+                claims.Add
+                (
+                new Claim(ClaimTypes.Role, userrole.Role!.RoleName)
+                );
+            }
+
             //locks the card with our secret key
             var key = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(_config["Jwt:Key"]!)

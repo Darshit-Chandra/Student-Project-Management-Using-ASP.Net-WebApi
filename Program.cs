@@ -59,12 +59,15 @@ namespace SPMBACKENDSELF
                     )
                 };
             });
+
+            // Add the Token in Scalar Not Mandatory (if Not Added the Check in Postman)
             builder.Services.AddOpenApi(options =>
             {
                 options.AddDocumentTransformer((document, context, cancellationToken) =>
                 {
                     document.Components ??= new();
                     document.Components.SecuritySchemes ??= new Dictionary<string, IOpenApiSecurityScheme>();
+
                     document.Components.SecuritySchemes.Add("Bearer", new OpenApiSecurityScheme
                     {
                         Type = SecuritySchemeType.Http,
@@ -73,9 +76,19 @@ namespace SPMBACKENDSELF
                         In = ParameterLocation.Header,
                         Description = "Enter your JWT token here (no need to type 'Bearer' prefix)"
                     });
+
+                    document.Security = new List<OpenApiSecurityRequirement>
+        {
+            new OpenApiSecurityRequirement
+                {
+                      [new OpenApiSecuritySchemeReference("Bearer", document)] = []
+                }
+        };
+
                     return Task.CompletedTask;
                 });
             });
+
             builder.Services.AddScoped<TokenServices>();
 
 

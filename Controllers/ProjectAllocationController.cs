@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SPMBACKENDSELF.ApiCommonResponse;
 using SPMBACKENDSELF.Data;
@@ -10,6 +11,7 @@ namespace SPMBACKENDSELF.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [Authorize]
     public class ProjectAllocationController : ControllerBase
     {
         private readonly AppDbContext _context;
@@ -20,6 +22,7 @@ namespace SPMBACKENDSELF.Controllers
         }
 
         // GET: api/ProjectAllocation
+        [Authorize(Roles = "Admin, Faculty")]
         [HttpGet]
         public async Task<IActionResult> GetAllProjectAllocation()
         {
@@ -51,6 +54,8 @@ namespace SPMBACKENDSELF.Controllers
 
         // GET: api/ProjectAllocation/1
         [HttpGet("{id}")]
+        [Authorize(Roles = "Admin, Faculty")]
+
         public async Task<IActionResult> GetProjectAllocationById(int id)
         {
             var projectAllocation = await _context.ProjectAllocation
@@ -91,6 +96,8 @@ namespace SPMBACKENDSELF.Controllers
 
         // POST: api/ProjectAllocation
         [HttpPost]
+        [Authorize(Roles = "Admin")]
+
         public async Task<IActionResult> AddProjectAllocation(
             ProjectAllocationPostDTO projectAllocationDto)
         {
@@ -123,6 +130,8 @@ namespace SPMBACKENDSELF.Controllers
 
         // PUT: api/ProjectAllocation/1
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
+
         public async Task<IActionResult> UpdateProjectAllocation(
             int id,
             ProjectAllocationPostDTO projectAllocationDto)
@@ -163,6 +172,8 @@ namespace SPMBACKENDSELF.Controllers
 
         // DELETE: api/ProjectAllocation/1
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
+
         public async Task<IActionResult> DeleteProjectAllocation(int id)
         {
             var projectAllocation =

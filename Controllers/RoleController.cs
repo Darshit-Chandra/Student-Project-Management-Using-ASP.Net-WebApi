@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,7 @@ namespace SPMBACKENDSELF.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [Authorize(Roles = "Admin")]
     public class RoleController : ControllerBase
     {
         private readonly AppDbContext _context;
@@ -21,6 +23,7 @@ namespace SPMBACKENDSELF.Controllers
             _roleValidator = roleValidator;
         }
         [HttpGet]
+       
         public async Task<IActionResult> GetRoles()
         {
             var roles = await _context.Role
@@ -40,6 +43,7 @@ namespace SPMBACKENDSELF.Controllers
             });
         }
         [HttpGet("{id}")]
+
         public async Task<IActionResult> GetRolesByID(int id)
         {
             var role = await _context.Role

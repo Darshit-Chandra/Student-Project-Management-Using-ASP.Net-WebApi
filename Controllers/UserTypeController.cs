@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SPMBACKENDSELF.ApiCommonResponse;
@@ -11,6 +12,7 @@ namespace SPMBACKENDSELF.Controllers
 {
     [Route("api/[controller]/[Action]")]
     [ApiController]
+    [Authorize(Roles = "Admin")]
     public class UserTypeController : ControllerBase
     {
         private readonly AppDbContext _context;
