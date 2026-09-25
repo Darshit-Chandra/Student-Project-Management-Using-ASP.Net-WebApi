@@ -22,7 +22,7 @@ namespace SPMBACKENDSELF.Controllers
 
         // GET: api/UserRole
         [HttpGet]
-        [Authorize(Roles = "Admin, Faculty")]
+        [Authorize(Roles = "Admin,Faculty")]
 
         public async Task<IActionResult> GetAll()
         {

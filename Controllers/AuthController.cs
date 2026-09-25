@@ -29,9 +29,11 @@ namespace SPMBACKENDSELF.Controllers
             try
             {
                 var user = await _context.User
-                                               .SingleOrDefaultAsync(u =>
-                                               u.Email == dto.Email &&
-                                               u.Password == dto.Password);
+                        .Include(u => u.UserRoleModels)
+                            .ThenInclude(ur => ur.Role)
+                        .SingleOrDefaultAsync(u =>
+                            u.Email == dto.Email &&
+                            u.Password == dto.Password);
                 if (user == null)
                 {
                     return Unauthorized("Invalid Email or password");

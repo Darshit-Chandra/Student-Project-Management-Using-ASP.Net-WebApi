@@ -8,6 +8,7 @@ using Scalar.AspNetCore;
 using SPMBACKENDSELF.Data;
 using SPMBACKENDSELF.Services;
 using SPMBACKENDSELF.Validators;
+using System.Security.Claims;
 using System.Text;
 
 
@@ -51,7 +52,7 @@ namespace SPMBACKENDSELF
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true, //confirms the token was signed with our secret key, not a fake one.
-
+                    RoleClaimType = ClaimTypes.Role,
                     ValidIssuer = builder.Configuration["Jwt:Issuer"],
                     ValidAudience = builder.Configuration["Jwt:Audience"],
                     IssuerSigningKey = new SymmetricSecurityKey(

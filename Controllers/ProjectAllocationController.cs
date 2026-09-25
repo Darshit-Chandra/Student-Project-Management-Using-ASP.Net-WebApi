@@ -22,7 +22,7 @@ namespace SPMBACKENDSELF.Controllers
         }
 
         // GET: api/ProjectAllocation
-        [Authorize(Roles = "Admin, Faculty")]
+        [Authorize(Roles = "Admin,Faculty")]
         [HttpGet]
         public async Task<IActionResult> GetAllProjectAllocation()
         {
@@ -54,7 +54,7 @@ namespace SPMBACKENDSELF.Controllers
 
         // GET: api/ProjectAllocation/1
         [HttpGet("{id}")]
-        [Authorize(Roles = "Admin, Faculty")]
+        [Authorize(Roles = "Admin,Faculty")]
 
         public async Task<IActionResult> GetProjectAllocationById(int id)
         {
